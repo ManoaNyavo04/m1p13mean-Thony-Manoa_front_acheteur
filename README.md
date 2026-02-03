@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Angular E-commerce Template 🛍️
 
 This is a modern, minimalist but functioning responsive e-commerce template built with **Angular** and **TailwindCSS**. It's designed to be a starting point for building full-featured e-commerce applications. The template includes a clean and customizable design, ideal for minimalist online stores.
@@ -49,3 +50,7 @@ To contribute:
 3. Commit your changes (`git commit -am 'Add new feature'`)
 4. Push to the branch (`git push origin feature-branch`)
 5. Create a new pull request
+=======
+# Frontend-Acheteur
+Frontend-Acheteur
+>>>>>>> dbfed447e4439c0a6d3e767058890075b75e34b1
