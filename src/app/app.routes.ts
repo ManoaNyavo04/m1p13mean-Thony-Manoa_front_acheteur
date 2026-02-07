@@ -7,6 +7,8 @@ import { MenClothingComponent } from './pages/men-clothing/men-clothing.componen
 import { WomenClothingComponent } from './pages/women-clothing/women-clothing.component';
 import { ProductDetailComponent } from './pages/product-detail/product-detail.component';
 import { FavoriteItemsComponent } from './pages/favorite-items/favorite-items.component';
+import { LoginComponent } from './pages/login/login.component';
+import { RegisterComponent } from './pages/register/register.component';
 
 export const routes: Routes = [
   { path: '', title: 'Home', component: HomeComponent },
@@ -40,5 +42,8 @@ export const routes: Routes = [
     path: 'shopping-cart',
     title: 'Shopping Cart',
     component: ShoppingCartComponent,
+    /*canActivate: [authGuard]*/
   },
+  { path: 'login', title: 'Login', component: LoginComponent },
+  { path: 'register', title: 'Register', component: RegisterComponent },
 ];

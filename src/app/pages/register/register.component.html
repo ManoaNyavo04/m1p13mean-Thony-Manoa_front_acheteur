@@ -1,0 +1,92 @@
+<div class="mt-28 pb-10 px-6 min-h-screen">
+  <div class="max-w-md mx-auto">
+    <div class="card bg-base-200 shadow-xl">
+      <div class="card-body">
+        <h2 class="card-title text-2xl mb-4">Register</h2>
+        @if (errorMessage) {
+        <div class="alert alert-error mb-4">
+          <span>{{ errorMessage }}</span>
+        </div>
+        }
+        <form (ngSubmit)="onRegister()">
+          <div class="form-control mb-4">
+            <label class="label">
+              <span class="label-text">Name</span>
+            </label>
+            <div class="input-group">
+              <span class="bg-base-300 px-4 flex items-center">
+                <fa-icon [icon]="faUser"></fa-icon>
+              </span>
+              <input
+                type="text"
+                placeholder="Your name"
+                class="input input-bordered w-full"
+                [(ngModel)]="nom"
+                name="nom"
+              />
+            </div>
+          </div>
+          <div class="form-control mb-4">
+            <label class="label">
+              <span class="label-text">Email</span>
+            </label>
+            <div class="input-group">
+              <span class="bg-base-300 px-4 flex items-center">
+                <fa-icon [icon]="faEnvelope"></fa-icon>
+              </span>
+              <input
+                type="email"
+                placeholder="email@example.com"
+                class="input input-bordered w-full"
+                [(ngModel)]="email"
+                name="email"
+              />
+            </div>
+          </div>
+          <div class="form-control mb-4">
+            <label class="label">
+              <span class="label-text">Contact</span>
+            </label>
+            <div class="input-group">
+              <span class="bg-base-300 px-4 flex items-center">
+                <fa-icon [icon]="faPhone"></fa-icon>
+              </span>
+              <input
+                type="tel"
+                placeholder="0123456789"
+                class="input input-bordered w-full"
+                [(ngModel)]="contact"
+                name="contact"
+              />
+            </div>
+          </div>
+          <div class="form-control mb-4">
+            <label class="label">
+              <span class="label-text">Password</span>
+            </label>
+            <div class="input-group">
+              <span class="bg-base-300 px-4 flex items-center">
+                <fa-icon [icon]="faLock"></fa-icon>
+              </span>
+              <input
+                type="password"
+                placeholder="Enter your password"
+                class="input input-bordered w-full"
+                [(ngModel)]="password"
+                name="password"
+              />
+            </div>
+          </div>
+          <div class="form-control mt-6">
+            <button class="btn btn-primary">Register</button>
+          </div>
+          <div class="text-center mt-4">
+            <span>Already have an account? </span>
+            <a routerLink="/login" class="link link-primary">Login here</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<app-footer />

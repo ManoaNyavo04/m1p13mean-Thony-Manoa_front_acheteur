@@ -6,6 +6,7 @@ import {
   faHamburger,
   faHeart,
   faShoppingBag,
+  faUser,
 } from '@fortawesome/free-solid-svg-icons';
 import { ShoppingCartLocalStorageService } from '../../services/shopping-cart-local-storage.service';
 
@@ -87,6 +88,14 @@ import { ShoppingCartLocalStorageService } from '../../services/shopping-cart-lo
               {{ cartItemQuantity() }}
             </div>
             }
+          </a>
+          <a
+            routerLink="/login"
+            class="btn btn-ghost"
+            routerLinkActive="bg-primary text-white"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+            <fa-icon [icon]="faUser"></fa-icon>
           </a>
           <select data-choose-theme>
             <option value="dark">Default</option>
@@ -171,6 +180,15 @@ import { ShoppingCartLocalStorageService } from '../../services/shopping-cart-lo
                 }
               </a>
             </li>
+            <li>
+              <a
+                routerLink="/login"
+                routerLinkActive="bg-primary"
+                [routerLinkActiveOptions]="{ exact: true }"
+                class="hover:underline transition-all"
+                >Login</a
+              >
+            </li>
           </ul>
         </div>
       </div>
@@ -192,6 +210,7 @@ export class HeaderComponent {
   faShoppingBag = faShoppingBag;
   faHamburger = faHamburger;
   faHeart = faHeart;
+  faUser = faUser;
 
   cartItemQuantity = computed(() =>
     this.shoppingCartLocalStorageService.cartItemQuantity()
