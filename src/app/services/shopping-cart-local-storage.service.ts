@@ -10,7 +10,7 @@ export class ShoppingCartLocalStorageService {
   cartItems = signal<Product[]>(this.loadItems());
   cartItemQuantity = computed(() => {
     return this.cartItems().reduce((a, c) => {
-      a += c?.quantity!;
+      a += c.quantity || 1; // Use existing quantity or default to 1
       return a;
     }, 0);
   });
@@ -26,19 +26,20 @@ export class ShoppingCartLocalStorageService {
   }
 
   addItem(item: Product) {
+    item.quantity = 1;
     const items = [...this.cartItems()];
     items.push(item);
     this.saveItems(items);
   }
 
   removeItem(item: Product) {
-    const newItems = this.cartItems().filter((i) => i.id !== item.id);
+    const newItems = this.cartItems().filter((i) => i._id !== item._id);
     this.saveItems(newItems);
   }
 
   updateItem(item: Product) {
     const newItems = this.cartItems().map((i) => {
-      if (i.id !== item.id) {
+      if (i._id !== item._id) {
         return i;
       } else {
         return item;
@@ -52,7 +53,7 @@ export class ShoppingCartLocalStorageService {
     this.cartItems.set([]);
   }
 
-  checkItemAlreadyExist(id: number) {
-    return this.cartItems().some((ct) => ct.id === id);
+  checkItemAlreadyExist(id: string) {
+    return this.cartItems().some((ct) => ct._id === id);
   }
 }

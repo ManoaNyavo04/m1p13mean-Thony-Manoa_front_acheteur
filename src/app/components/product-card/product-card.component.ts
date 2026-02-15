@@ -20,18 +20,18 @@ import { FavoriteItemsLocalStorageService } from '../../services/favorite-items-
       <figure>
         <img
           class="w-full h-[320px] object-fill"
-          [src]="product()?.image"
+          src=""
           alt="Shoes"
         />
       </figure>
       <div class="card-body">
         <h2 class="card-title">
-          {{ product()?.title }}
+          {{ product()?.nomProduit }}
         </h2>
-        <h3 class="text-lg text-green-500">$ {{ product()?.price }}</h3>
+        <h3 class="text-lg text-green-500">{{ product()?.prix }} MGA</h3>
 
         <p class="line-clamp-3">
-          {{ product()?.description }}
+          Stock: {{ product()?.nombre }}
         </p>
         <div class="card-actions mt-4 w-full">
           <div class="flex items-center gap-x-2 w-full justify-between">
@@ -56,7 +56,7 @@ import { FavoriteItemsLocalStorageService } from '../../services/favorite-items-
             </div>
             <div>
               <div class="badge badge-outline capitalize">
-                {{ product()?.category }}
+                {{ product()?.categorie?.categorie }}
               </div>
             </div>
           </div>
@@ -92,19 +92,18 @@ export class ProductCardComponent {
   addItem() {
     this.shoppingCartLocalStorageService.addItem({
       ...this?.product()!,
-      quantity: 1, // Add default quantity
     });
   }
 
   checkItemAlreadyExist() {
     return this.shoppingCartLocalStorageService.checkItemAlreadyExist(
-      this.product()?.id!
+      this.product()?._id!
     );
   }
 
   checkFavoriteItemAlreadyExist() {
     return this.favoriteItemsLocalStorageService.checkItemAlreadyExist(
-      this.product()?.id!
+      this.product()?._id!
     );
   }
 
@@ -117,6 +116,6 @@ export class ProductCardComponent {
   }
 
   onClickNavigate() {
-    this.router.navigate(['/products', this.product()?.id]);
+    this.router.navigate(['/products', this.product()?._id]);
   }
 }

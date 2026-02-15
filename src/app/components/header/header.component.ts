@@ -1,4 +1,4 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, inject, OnInit } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {
@@ -9,6 +9,7 @@ import {
   faUser,
 } from '@fortawesome/free-solid-svg-icons';
 import { ShoppingCartLocalStorageService } from '../../services/shopping-cart-local-storage.service';
+import { CategorieService } from '../../services/categorie/categorie.service';
 
 @Component({
   selector: 'app-header',
@@ -37,34 +38,15 @@ import { ShoppingCartLocalStorageService } from '../../services/shopping-cart-lo
               class="hover:underline transition-all"
               >All</a
             >
+            @for (category of categories; track category._id) {
             <a
-              routerLink="/men-clothing"
+              [routerLink]="'/' + category.categorie.toLowerCase()"
               routerLinkActive="active-link"
               [routerLinkActiveOptions]="{ exact: true }"
               class="hover:underline transition-all"
-              >Men</a
+              >{{ category.categorie }}</a
             >
-            <a
-              routerLink="/women-clothing"
-              routerLinkActive="active-link"
-              [routerLinkActiveOptions]="{ exact: true }"
-              class="hover:underline transition-all"
-              >Women</a
-            >
-            <a
-              routerLink="/jewelry"
-              routerLinkActive="active-link"
-              [routerLinkActiveOptions]="{ exact: true }"
-              class="hover:underline transition-all"
-              >Jewelry</a
-            >
-            <a
-              routerLink="/electronics"
-              routerLinkActive="active-link"
-              [routerLinkActiveOptions]="{ exact: true }"
-              class="hover:underline transition-all"
-              >Electronics</a
-            >
+            }
           </div>
         </div>
         <div class="hidden lg:flex items-center gap-x-2">
@@ -111,84 +93,6 @@ import { ShoppingCartLocalStorageService } from '../../services/shopping-cart-lo
             tabindex="0"
             class="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm"
           >
-            <li>
-              <a
-                routerLink="/"
-                routerLinkActive="active-link"
-                [routerLinkActiveOptions]="{ exact: true }"
-                class="hover:underline transition-all"
-                >All</a
-              >
-            </li>
-            <li>
-              <a
-                routerLink="/men-clothing"
-                routerLinkActive="active-link"
-                [routerLinkActiveOptions]="{ exact: true }"
-                class="hover:underline transition-all"
-                >Men</a
-              >
-            </li>
-            <li>
-              <a
-                routerLink="/women-clothing"
-                routerLinkActive="active-link"
-                [routerLinkActiveOptions]="{ exact: true }"
-                class="hover:underline transition-all"
-                >Women</a
-              >
-            </li>
-            <li>
-              <a
-                routerLink="/jewelry"
-                routerLinkActive="active-link"
-                [routerLinkActiveOptions]="{ exact: true }"
-                class="hover:underline transition-all"
-                >Jewelry</a
-              >
-            </li>
-            <li>
-              <a
-                routerLink="/electronics"
-                routerLinkActive="active-link"
-                [routerLinkActiveOptions]="{ exact: true }"
-                class="hover:underline transition-all"
-                >Electronics</a
-              >
-            </li>
-            <li>
-              <a
-                routerLink="/favorite-items"
-                routerLinkActive="bg-primary"
-                [routerLinkActiveOptions]="{ exact: true }"
-                class="hover:underline transition-all"
-                >Favorite</a
-              >
-            </li>
-            <li>
-              <a
-                routerLink="/shopping-cart"
-                routerLinkActive="bg-primary"
-                [routerLinkActiveOptions]="{ exact: true }"
-                class="relative hover:underline transition-all"
-                >Shopping Cart @if (cartItemQuantity() >= 1) {
-                <div
-                  class="absolute -top-2 -right-2 badge badge-primary badge-sm"
-                >
-                  {{ cartItemQuantity() }}
-                </div>
-                }
-              </a>
-            </li>
-            <li>
-              <a
-                routerLink="/login"
-                routerLinkActive="bg-primary"
-                [routerLinkActiveOptions]="{ exact: true }"
-                class="hover:underline transition-all"
-                >Login</a
-              >
-            </li>
           </ul>
         </div>
       </div>
@@ -201,10 +105,11 @@ import { ShoppingCartLocalStorageService } from '../../services/shopping-cart-lo
   }
   `,
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
   private readonly shoppingCartLocalStorageService = inject(
     ShoppingCartLocalStorageService
   );
+  private readonly categorieService = inject(CategorieService);
 
   faCartShopping = faCartShopping;
   faShoppingBag = faShoppingBag;
@@ -212,7 +117,17 @@ export class HeaderComponent {
   faHeart = faHeart;
   faUser = faUser;
 
+  categories: any[] = [];
+
   cartItemQuantity = computed(() =>
     this.shoppingCartLocalStorageService.cartItemQuantity()
   );
+
+  ngOnInit(): void {
+    this.categorieService.getAllCategories()
+      .subscribe({
+        next: (categories) => this.categories = categories,
+        error: (error) => console.error('Error loading categories:', error)
+      });
+  }
 }

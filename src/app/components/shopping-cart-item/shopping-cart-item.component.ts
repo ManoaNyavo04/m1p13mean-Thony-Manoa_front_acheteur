@@ -12,14 +12,14 @@ import { ShoppingCartLocalStorageService } from '../../services/shopping-cart-lo
       <figure>
         <img
           class="h-[130px] w-[140px] object-fill"
-          [src]="item()?.image"
-          alt="Shoes"
+          src=""
+          alt="Product"
         />
       </figure>
       <div class="w-full">
         <div class="space-y-1">
-          <p class="font-bold">{{ item()?.title }}</p>
-          <p class="font-bold text-lg mt-auto">$ {{ item()?.price }}</p>
+          <p class="font-bold">{{ item()?.nomProduit }}</p>
+          <p class="font-bold text-lg mt-auto">{{ item()?.prix }} MGA</p>
         </div>
         <div class="mt-3 flex items-center justify-between gap-x-4">
           <div class="flex items-center gap-x-2">
@@ -61,10 +61,13 @@ export class ShoppingCartItemComponent {
   item = input<Product>();
 
   incrementItemQuantity() {
-    this.shoppingCartLocalStorageService.updateItem({
-      ...this?.item()!,
-      quantity: this.item()?.quantity! + 1,
-    });
+    const newQuantity = this.item()?.quantity! + 1;
+    if(newQuantity <= this.item()?.nombre!) {
+      this.shoppingCartLocalStorageService.updateItem({
+        ...this?.item()!,
+        quantity: newQuantity
+      });
+    }
   }
 
   decrementItemQuantity() {

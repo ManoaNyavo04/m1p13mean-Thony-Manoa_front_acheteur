@@ -26,7 +26,7 @@ import { FooterComponent } from '../../components/footer/footer.component';
       <div
         class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 mx-auto max-w-7xl gap-6"
       >
-        @for (product of productsResource.value(); track product.id) {
+        @for (product of productsResource.value(); track product._id) {
         <app-product-card [product]="product" />
         }
       </div>

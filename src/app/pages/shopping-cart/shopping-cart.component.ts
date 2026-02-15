@@ -20,6 +20,7 @@ import { PaymentInfoLocalStorageService } from '../../services/payment-info-loca
 import { PaymentInfoData } from '../../../type';
 import { ShoppingCartItemComponent } from '../../components/shopping-cart-item/shopping-cart-item.component';
 import { Meta, Title } from '@angular/platform-browser';
+import { CommandeService } from '../../services/commande/commande.service';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -27,10 +28,6 @@ import { Meta, Title } from '@angular/platform-browser';
   template: `
     <div class="mx-auto flex flex-col-reverse lg:flex-row gap-x-20 min-h-full">
       <div class="w-full py-14 lg:py-0 lg:pb-0 lg:pt-28 px-6 lg:pl-24 lg:pr-8">
-        <h2 class="text-xl font-bold uppercase">Payment Detail</h2>
-        <p>
-          Complete your purchase item by providing your payment details order
-        </p>
         <form (submit)="simulateCheckoutProcessing($event)">
           <!-- Shipping Address -->
           <fieldset class="mt-4 fieldset px-0 p-4">
@@ -46,95 +43,20 @@ import { Meta, Title } from '@angular/platform-browser';
               >{{ paymentInfoData()?.address || '' }}</textarea
             >
           </fieldset>
-          <!-- Payment Method -->
-          <fieldset class="mt-1 fieldset px-0 p-4">
-            <legend class="fieldset-legend text-lg uppercase">
-              Payment Method
-            </legend>
-
-            <div class="space-y-4">
-              <div class="w-full space-y-2">
-                <label class="fieldset-label">Card Number</label>
-                <input
-                  type="number"
-                  required
-                  class="input validator w-full"
-                  [value]="paymentInfoData()?.cardNumber"
-                  (change)="handleInputChange($event, 'cardNumber')"
-                  placeholder="Enter your card number"
-                />
-              </div>
-              <div class="flex items-center gap-x-2 w-full">
-                <div class="w-full space-y-2">
-                  <label class="fieldset-label">Expiration Date</label>
-                  <input
-                    type="number"
-                    required
-                    [value]="paymentInfoData()?.expirationDate"
-                    (change)="handleInputChange($event, 'expirationDate')"
-                    class="input w-full validator"
-                    placeholder="MM/YY"
-                  />
-                </div>
-                <div class="w-full space-y-2">
-                  <label class="fieldset-label">CVV</label>
-                  <input
-                    type="number"
-                    required
-                    [value]="paymentInfoData()?.cvv"
-                    (change)="handleInputChange($event, 'cvv')"
-                    class="input w-full validator"
-                    placeholder="XXX"
-                  />
-                </div>
-              </div>
-              <div class="w-full space-y-2">
-                <label class="fieldset-label">Name on Card</label>
-                <input
-                  required
-                  type="text"
-                  [value]="paymentInfoData()?.nameOnCard ?? ''"
-                  (change)="handleInputChange($event, 'nameOnCard')"
-                  class="input w-full validator"
-                  placeholder="Enter your name"
-                />
-              </div>
-            </div>
-          </fieldset>
-          <div class="w-full flex items-center justify-between gap-x-3">
-            <label class="fieldset-label">
-              <input
-                type="checkbox"
-                (change)="toggleRememberPaymentInfo($event)"
-                [checked]="rememberPaymentInfo()"
-                class="checkbox"
-              />
-              Remember payment information
-            </label>
-            <div class="tooltip tooltip-left">
-              <div class="tooltip-content">
-                <div class="text-sm w-[250px]">
-                  Only save these information in your browser and does not send
-                  to anywhere. This entire app only run on client-side
-                </div>
-              </div>
-              <fa-icon [icon]="faExclamationCircle"></fa-icon>
-            </div>
-          </div>
           @if(cartItemQuantity() >= 1) {
           <div class="border-t border-t-base-300 pt-4 mt-4 space-y-2">
             <div class="flex items-center justify-between">
               <span>Total Quantity</span>
-              <span class="text-lg font-bold">{{ cartItemQuantity() }}</span>
+              <span class="text-lg font-bold">{{ cartItemQuantity()}}</span>
             </div>
             <div class="flex items-center justify-between">
               <span>Total Amount</span>
-              <span class="text-lg font-bold">{{ totalPrice() }}</span>
+              <span class="text-lg font-bold">{{ totalPrice() + ' MGA'}}</span>
             </div>
           </div>
           <button class="btn btn-primary w-full mt-2" type="submit">
-            @if (!isLoading() && !isSuccess()) { Pay $
-            {{ totalPrice() }}
+            @if (!isLoading() && !isSuccess()) { Pay
+            {{ totalPrice() + ' MGA'}}
             } @else if (!isLoading() && isSuccess()) { Checkout success } @else
             { Processing your payment... }
           </button>
@@ -154,7 +76,7 @@ import { Meta, Title } from '@angular/platform-browser';
           <div
             class="mt-4 border border-gray-900 rounded-lg px-4 py-6 space-y-6 max-h-[calc(100dvh-200px)] overflow-y-auto"
           >
-            @for(item of cartItems(); track item.id) {
+            @for(item of cartItems(); track item._id) {
             <div
               class="border-b border-b-gray-900 pb-5 last:pb-0 last:border-b-0"
             >
@@ -221,6 +143,7 @@ export class ShoppingCartComponent {
   private readonly paymentInfoLocalStorageService = inject(
     PaymentInfoLocalStorageService
   );
+  private readonly commandeService = inject(CommandeService);
 
   private readonly router = inject(Router);
 
@@ -232,7 +155,9 @@ export class ShoppingCartComponent {
     'checkoutSuccessDialog'
   );
 
+
   cartItems = computed(() => this.shoppingCartLocalStorageService.cartItems());
+
   cartItemQuantity = computed(() =>
     this.shoppingCartLocalStorageService.cartItemQuantity()
   );
@@ -243,7 +168,7 @@ export class ShoppingCartComponent {
   totalPrice = computed(() => {
     return new Intl.NumberFormat('en-IN').format(
       this.cartItems().reduce((a, c) => {
-        a += c?.price * c?.quantity!;
+        a += c?.prix * c?.quantity!;
         return a;
       }, 0)
     );
@@ -253,11 +178,31 @@ export class ShoppingCartComponent {
     event.preventDefault();
 
     this.isLoading.set(true);
-    setTimeout(() => {
-      this.isLoading.set(false);
-      this.isSuccess.set(true);
-      this.checkoutSuccessDialog()?.nativeElement.showModal();
-    }, 1000);
+
+    const orderData = {
+      produits: this.cartItems().map(item => ({
+        produit: item._id,
+        boutique: item.boutique,
+        prix: item.prix,
+        nombre: item.quantity || 1,
+        prixTotal: item.prix * (item.quantity || 1)
+      })),
+      lieu: this.paymentInfoData()?.address || ''
+    };
+
+    this.commandeService.createOrder(orderData)
+      .subscribe({
+        next: (response) => {
+          console.log('Order created:', response);
+          this.isLoading.set(false);
+          this.isSuccess.set(true);
+          this.checkoutSuccessDialog()?.nativeElement.showModal();
+        },
+        error: (error) => {
+          console.error('Order failed:', error);
+          this.isLoading.set(false);
+        }
+      });
   }
 
   closeDialog() {

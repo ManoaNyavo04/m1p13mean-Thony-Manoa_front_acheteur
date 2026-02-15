@@ -76,8 +76,8 @@ import { FooterComponent } from '../../components/footer/footer.component';
             <figure>
               <img
                 class="w-full h-[350px] md:h-[550px]"
-                [src]="this.productResource.value()?.image"
-                [alt]="this.productResource.value()?.title"
+                src=""
+                [alt]="this.productResource.value()?.nomProduit"
               />
             </figure>
             }
@@ -90,16 +90,16 @@ import { FooterComponent } from '../../components/footer/footer.component';
             <div class="skeleton w-full mt-8 h-[50px]"></div>
             } @else {
             <h2 class="text-2xl font-bold mb-3">
-              {{ this.productResource.value()?.title }}
+              {{ this.productResource.value()?.nomProduit }}
             </h2>
             <h3 class="text-3xl font-bold">
-              $ {{ this.productResource.value()?.price }}
+              $ {{ this.productResource.value()?.prix }}
             </h3>
             <p class="leading-6 mt-4">
-              {{ this.productResource.value()?.description }}
+              Stock: {{ this.productResource.value()?.nombre }}
             </p>
             <div class="badge badge-outline capitalize mt-2">
-              {{ this.productResource.value()?.category }}
+              {{ this.productResource.value()?.categorie?.categorie }}
             </div>
             <button
               [disabled]="checkItemAlreadyExist()"
@@ -129,7 +129,7 @@ import { FooterComponent } from '../../components/footer/footer.component';
             class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 mx-auto max-w-7xl gap-6"
           >
             @for (similarProduct of similarProductResource.value(); track
-            similarProduct.id) {
+            similarProduct._id) {
             <app-product-card [product]="similarProduct" />
             }
           </div>
@@ -179,7 +179,7 @@ export class ProductDetailComponent implements OnInit {
     loader: ({ request }) => this.apiService.getProductById(request.id),
   });
   similarProductResource = resource({
-    request: () => ({ category: this.productResource.value()?.category }),
+    request: () => ({ category: this.productResource.value()?.categorie?.categorie }),
     loader: ({ request }) =>
       this.apiService.getProductsWithLimit(4, request.category),
   });
@@ -225,20 +225,19 @@ export class ProductDetailComponent implements OnInit {
 
   checkItemAlreadyExist() {
     return this.shoppingCartLocalStorageService.checkItemAlreadyExist(
-      this.productResource.value()?.id!
+      this.productResource.value()?._id!
     );
   }
 
   addItem() {
     this.shoppingCartLocalStorageService.addItem({
       ...this?.productResource.value()!,
-      quantity: 1, // Add default quantity
     });
   }
 
   checkFavoriteItemAlreadyExist() {
     return this.favoriteItemsLocalStorageService.checkItemAlreadyExist(
-      this.productResource.value()?.id!
+      this.productResource.value()?._id!
     );
   }
 

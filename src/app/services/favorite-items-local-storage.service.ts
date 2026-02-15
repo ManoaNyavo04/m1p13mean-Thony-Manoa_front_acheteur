@@ -26,13 +26,13 @@ export class FavoriteItemsLocalStorageService {
   }
 
   removeItem(item: Product) {
-    const newItems = this.favoriteItems().filter((i) => i.id !== item.id);
+    const newItems = this.favoriteItems().filter((i) => i._id !== item._id);
     this.saveItems(newItems);
   }
 
   updateItem(item: Product) {
     const newItems = this.favoriteItems().map((i) => {
-      if (i.id !== item.id) {
+      if (i._id !== item._id) {
         return i;
       } else {
         return item;
@@ -46,7 +46,7 @@ export class FavoriteItemsLocalStorageService {
     this.favoriteItems.set([]);
   }
 
-  checkItemAlreadyExist(id: number) {
-    return this.favoriteItems().some((ct) => ct.id === id);
+  checkItemAlreadyExist(id: string) {
+    return this.favoriteItems().some((ct) => ct._id === id);
   }
 }

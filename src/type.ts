@@ -1,11 +1,15 @@
 export interface Product {
-  id: number;
-  title: string;
-  price: number;
+  _id: string;
+  nomProduit: string;
+  prix: number;
+  boutique: string;
+  nombre: number;
   quantity?: number;
-  description: string;
-  category: string;
-  image: string;
+  categorie: {
+    _id: string;
+    categorie: string;
+    __v: number;
+  };
 }
 
 export interface PaymentInfoData {
