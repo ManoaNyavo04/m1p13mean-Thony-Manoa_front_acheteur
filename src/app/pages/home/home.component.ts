@@ -5,6 +5,7 @@ import { ProductCardSkeletonComponent } from '../../components/product-card-skel
 import { Meta, Title } from '@angular/platform-browser';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { ProduitService } from '../../services/produit/produit.service';
+import { CategoryFilterService } from '../../services/category-filter/category-filter.service';
 
 @Component({
   selector: 'app-home',
@@ -38,6 +39,7 @@ import { ProduitService } from '../../services/produit/produit.service';
 })
 export class HomeComponent implements OnInit {
   private readonly produitService = inject(ProduitService);
+  private readonly categoryFilterService = inject(CategoryFilterService);
 
   products: any[] = [];
   isLoading = true;
@@ -47,6 +49,19 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loadAllProducts();
+    
+    this.categoryFilterService.category$.subscribe(categoryId => {
+      if (categoryId) {
+        this.loadProductsByCategory(categoryId);
+      } else {
+        this.loadAllProducts();
+      }
+    });
+  }
+
+  loadAllProducts(): void {
+    this.isLoading = true;
     this.produitService.getAllProducts()
       .subscribe({
         next: (products) => {
@@ -55,6 +70,21 @@ export class HomeComponent implements OnInit {
         },
         error: (error) => {
           console.error('Error loading products:', error);
+          this.isLoading = false;
+        }
+      });
+  }
+
+  loadProductsByCategory(categorieId: string): void {
+    this.isLoading = true;
+    this.produitService.getProductsByCategory(categorieId)
+      .subscribe({
+        next: (products) => {
+          this.products = products;
+          this.isLoading = false;
+        },
+        error: (error) => {
+          console.error('Error loading products by category:', error);
           this.isLoading = false;
         }
       });

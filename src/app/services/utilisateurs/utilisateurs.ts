@@ -15,6 +15,11 @@ export interface RegisterRequest {
   mdp: string;
 }
 
+export interface UserData {
+  nom: string;
+  mail: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -22,6 +27,7 @@ export class UtilisateursService {
   private readonly http = inject(HttpClient);
   private readonly apiUrl = `${environment.apiUrl}/acheteur`;
   private readonly TOKEN_KEY = 'auth_token';
+  private readonly USER_DATA_KEY = 'user_data';
 
   login(credentials: LoginRequest): Observable<any> {
     return this.http.post(`${this.apiUrl}/login`, credentials);
@@ -45,5 +51,18 @@ export class UtilisateursService {
 
   removeToken(): void {
     localStorage.removeItem(this.TOKEN_KEY);
+  }
+
+  saveUserData(userData: UserData): void {
+    localStorage.setItem(this.USER_DATA_KEY, JSON.stringify(userData));
+  }
+
+  getUserData(): UserData | null {
+    const data = localStorage.getItem(this.USER_DATA_KEY);
+    return data ? JSON.parse(data) : null;
+  }
+
+  removeUserData(): void {
+    localStorage.removeItem(this.USER_DATA_KEY);
   }
 }

@@ -6,6 +6,7 @@ import { FooterComponent } from '../../components/footer/footer.component';
 import { FormsModule } from '@angular/forms';
 import { UtilisateursService } from '../../services/utilisateurs/utilisateurs';
 import { Router, RouterLink } from '@angular/router';
+import { CategoryFilterService } from '../../services/category-filter/category-filter.service';
 
 @Component({
   selector: 'app-login',
@@ -14,6 +15,7 @@ import { Router, RouterLink } from '@angular/router';
 })
 export class LoginComponent {
   private readonly utilisateursService = inject(UtilisateursService);
+  private readonly categoryFilterService = inject(CategoryFilterService);
   private readonly router = inject(Router);
 
   constructor(private meta: Meta, private title: Title) {
@@ -38,6 +40,12 @@ export class LoginComponent {
       .subscribe({
         next: (response) => {
           this.utilisateursService.saveToken(response.token);
+          const userData = {
+            nom: response.user.nom,
+            mail: response.user.mail
+          };
+          this.utilisateursService.saveUserData(userData);
+          this.categoryFilterService.setUserData(userData);
           this.router.navigate(['']);
         },
         error: (error) => this.errorMessage = error.error?.message || 'Login failed. Please try again.'
