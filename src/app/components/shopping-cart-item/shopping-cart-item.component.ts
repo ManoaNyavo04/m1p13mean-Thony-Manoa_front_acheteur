@@ -3,6 +3,7 @@ import { Product } from '../../../type';
 import { faMinus, faPlus, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ShoppingCartLocalStorageService } from '../../services/shopping-cart-local-storage.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-shopping-cart-item',
@@ -12,8 +13,8 @@ import { ShoppingCartLocalStorageService } from '../../services/shopping-cart-lo
       <figure>
         <img
           class="h-[130px] w-[140px] object-fill"
-          src=""
-          alt="Product"
+          [src]="getImageUrl(item()?.image)"
+          [alt]="item()?.nomProduit || 'Product'"
         />
       </figure>
       <div class="w-full">
@@ -53,6 +54,7 @@ export class ShoppingCartItemComponent {
   private readonly shoppingCartLocalStorageService = inject(
     ShoppingCartLocalStorageService
   );
+  private readonly apiUrl = `${environment.apiUrl}`;
 
   faPlus = faPlus;
   faMinus = faMinus;
@@ -84,5 +86,10 @@ export class ShoppingCartItemComponent {
 
   removeItemQuantity() {
     this.shoppingCartLocalStorageService.removeItem(this.item()!);
+  }
+
+  getImageUrl(imagePath: string | null | undefined): string {
+    if (!imagePath) return '/images/default-product.png';
+    return `${this.apiUrl}/${imagePath}`;
   }
 }

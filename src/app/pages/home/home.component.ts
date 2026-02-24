@@ -6,6 +6,7 @@ import { Meta, Title } from '@angular/platform-browser';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { ProduitService } from '../../services/produit/produit.service';
 import { CategoryFilterService } from '../../services/category-filter/category-filter.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -40,6 +41,7 @@ import { CategoryFilterService } from '../../services/category-filter/category-f
 export class HomeComponent implements OnInit {
   private readonly produitService = inject(ProduitService);
   private readonly categoryFilterService = inject(CategoryFilterService);
+  private readonly apiUrl = `${environment.apiUrl}`;
 
   products: any[] = [];
   isLoading = true;
@@ -50,7 +52,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadAllProducts();
-    
+
     this.categoryFilterService.category$.subscribe(categoryId => {
       if (categoryId) {
         this.loadProductsByCategory(categoryId);
@@ -88,5 +90,10 @@ export class HomeComponent implements OnInit {
           this.isLoading = false;
         }
       });
+  }
+
+  getImageUrl(imagePath: string | null): string {
+    if (!imagePath) return '/images/default-product.png';
+    return `${this.apiUrl}/${imagePath}`;
   }
 }

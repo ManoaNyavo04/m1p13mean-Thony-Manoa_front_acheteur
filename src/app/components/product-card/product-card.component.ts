@@ -9,6 +9,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ShoppingCartLocalStorageService } from '../../services/shopping-cart-local-storage.service';
 import { Router } from '@angular/router';
 import { FavoriteItemsLocalStorageService } from '../../services/favorite-items-local-storage.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-product-card',
@@ -20,8 +21,8 @@ import { FavoriteItemsLocalStorageService } from '../../services/favorite-items-
       <figure>
         <img
           class="w-full h-[320px] object-fill"
-          src=""
-          alt="Shoes"
+          [src]="getImageUrl(product()?.image)"
+          [alt]="product()?.nomProduit || 'Product'"
         />
       </figure>
       <div class="card-body">
@@ -81,6 +82,7 @@ export class ProductCardComponent {
     FavoriteItemsLocalStorageService
   );
   private readonly router = inject(Router);
+  private readonly apiUrl = environment.apiUrl;
 
   faHeart = faHeart;
   faEye = faEye;
@@ -88,6 +90,11 @@ export class ProductCardComponent {
   product = input<Product>();
 
   cartItems = computed(() => this.shoppingCartLocalStorageService.cartItems());
+
+  getImageUrl(imagePath: string | null | undefined): string {
+    if (!imagePath) return '/images/default-product.png';
+    return `${this.apiUrl}/${imagePath}`;
+  }
 
   addItem() {
     this.shoppingCartLocalStorageService.addItem({
