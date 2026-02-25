@@ -21,11 +21,22 @@ import { PaymentInfoData } from '../../../type';
 import { ShoppingCartItemComponent } from '../../components/shopping-cart-item/shopping-cart-item.component';
 import { Meta, Title } from '@angular/platform-browser';
 import { CommandeService } from '../../services/commande/commande.service';
+import { UtilisateursService } from '../../services/utilisateurs/utilisateurs';
 
 @Component({
   selector: 'app-shopping-cart',
   imports: [FontAwesomeModule, ShoppingCartItemComponent, RouterLink],
   template: `
+    @if (!isUserConnected()) {
+    <div class="flex items-center justify-center min-h-screen px-6">
+      <div class="text-center">
+        <fa-icon [icon]="faExclamationCircle" class="text-6xl text-warning mb-4"></fa-icon>
+        <h2 class="text-2xl font-bold mb-2">Veuillez vous connecter</h2>
+        <p class="text-gray-400 mb-4">Vous devez être connecté pour accéder à votre panier</p>
+        <a routerLink="/login" class="btn btn-primary">Se connecter</a>
+      </div>
+    </div>
+    } @else {
     <div class="mx-auto flex flex-col-reverse lg:flex-row gap-x-20 min-h-full">
       <div class="w-full py-14 lg:py-0 lg:pb-0 lg:pt-28 px-6 lg:pl-24 lg:pr-8">
         <form (submit)="simulateCheckoutProcessing($event)">
@@ -95,6 +106,7 @@ import { CommandeService } from '../../services/commande/commande.service';
         </div>
       </div>
     </div>
+    }
     <dialog #checkoutSuccessDialog class="modal modal-bottom sm:modal-middle">
       <div class="modal-box">
         <div class="flex items-center justify-center w-full mb-4">
@@ -144,8 +156,21 @@ export class ShoppingCartComponent {
     PaymentInfoLocalStorageService
   );
   private readonly commandeService = inject(CommandeService);
+  private readonly utilisateursService = inject(UtilisateursService);
 
   private readonly router = inject(Router);
+
+  isUserConnected = computed(() => {
+    const token = this.utilisateursService.getToken();
+    if (!token) return false;
+    
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return payload.type === 1;
+    } catch {
+      return false;
+    }
+  });
 
   rememberPaymentInfo = signal(true);
   isLoading = signal(false);

@@ -17,4 +17,12 @@ export class ProduitService {
   getProductsByCategory(categorieId: string): Observable<any> {
     return this.http.get(`${this.apiUrl}/categorie/${categorieId}`);
   }
+
+  searchProducts(query: string, categorieId?: string): Observable<any> {
+    let url = `${this.apiUrl}/search?q=${query}`;
+    if (categorieId) {
+      url += `&categorie=${categorieId}`;
+    }
+    return this.http.get(url);
+  }
 }
