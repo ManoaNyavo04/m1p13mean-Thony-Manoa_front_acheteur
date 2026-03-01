@@ -54,11 +54,11 @@ export class HomeComponent implements OnInit {
     this.loadAllProducts();
 
     this.categoryFilterService.category$.subscribe(categoryId => {
-      if (categoryId) {
-        this.loadProductsByCategory(categoryId);
-      } else {
-        this.loadAllProducts();
-      }
+      this.searchProducts('');
+    });
+
+    this.categoryFilterService.searchQuery$.subscribe(query => {
+      this.searchProducts(query);
     });
   }
 
@@ -77,16 +77,17 @@ export class HomeComponent implements OnInit {
       });
   }
 
-  loadProductsByCategory(categorieId: string): void {
+  searchProducts(query: string): void {
     this.isLoading = true;
-    this.produitService.getProductsByCategory(categorieId)
+    const categoryId = this.categoryFilterService.categorySubject.value;
+    this.produitService.searchProducts(query, categoryId || undefined)
       .subscribe({
         next: (products) => {
           this.products = products;
           this.isLoading = false;
         },
         error: (error) => {
-          console.error('Error loading products by category:', error);
+          console.error('Error searching products:', error);
           this.isLoading = false;
         }
       });
