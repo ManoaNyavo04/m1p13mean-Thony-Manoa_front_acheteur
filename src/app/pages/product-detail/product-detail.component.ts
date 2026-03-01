@@ -107,7 +107,7 @@ import { FooterComponent } from '../../components/footer/footer.component';
               class="w-full btn btn-primary mt-8"
             >
               <fa-icon [icon]="faCartShopping"></fa-icon>
-              Add to Cart
+              Ajouter au panier
             </button>
             }
           </div>
@@ -115,7 +115,7 @@ import { FooterComponent } from '../../components/footer/footer.component';
       </div>
       <div class="mx-auto pt-28 pb-10 px-6 max-w-7xl">
         <div class="mt-10">
-          <h3 class="text-2xl font-bold mb-8">Other similar products</h3>
+          <h3 class="text-2xl font-bold mb-8">Autres produits similaires</h3>
           @if (isLoadingSimilarProductResource()) {
           <div
             class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 mx-auto max-w-7xl gap-6"

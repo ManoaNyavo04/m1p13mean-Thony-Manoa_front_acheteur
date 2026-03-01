@@ -37,12 +37,12 @@ import { environment } from '../../../environments/environment';
         <div class="card-actions mt-4 w-full">
           <div class="flex items-center gap-x-2 w-full justify-between">
             <div class="flex items-center gap-x-2">
-              <div class="tooltip" data-tip="View Detail">
+              <div class="tooltip" data-tip="Voir les détails">
                 <button (click)="onClickNavigate()" class="btn btn-soft btn-sm">
                   <fa-icon [icon]="faEye"></fa-icon>
                 </button>
               </div>
-              <div class="tooltip" data-tip="Favorite">
+              <div class="tooltip" data-tip="Favori">
                 <button
                   (click)="toggleFavoriteItem()"
                   [class]="
@@ -67,7 +67,7 @@ import { environment } from '../../../environments/environment';
             class="mt-2 w-full btn btn-primary"
           >
             <fa-icon [icon]="faCartShopping"></fa-icon>
-            Add to Cart
+            Ajouter au panier
           </button>
         </div>
       </div>

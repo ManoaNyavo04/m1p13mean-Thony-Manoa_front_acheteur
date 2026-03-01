@@ -2,7 +2,7 @@
   <div class="max-w-md mx-auto">
     <div class="card bg-base-200 shadow-xl">
       <div class="card-body">
-        <h2 class="card-title text-2xl mb-4">Register</h2>
+        <h2 class="card-title text-2xl mb-4">Inscription</h2>
         @if (errorMessage) {
         <div class="alert alert-error mb-4">
           <span>{{ errorMessage }}</span>
@@ -11,7 +11,7 @@
         <form (ngSubmit)="onRegister()">
           <div class="form-control mb-4">
             <label class="label">
-              <span class="label-text">Name</span>
+              <span class="label-text">Nom</span>
             </label>
             <div class="input-group">
               <span class="bg-base-300 px-4 flex items-center">
@@ -19,7 +19,7 @@
               </span>
               <input
                 type="text"
-                placeholder="Your name"
+                placeholder="Votre nom"
                 class="input input-bordered w-full"
                 [(ngModel)]="nom"
                 name="nom"
@@ -62,7 +62,7 @@
           </div>
           <div class="form-control mb-4">
             <label class="label">
-              <span class="label-text">Password</span>
+              <span class="label-text">Mot de passe</span>
             </label>
             <div class="input-group">
               <span class="bg-base-300 px-4 flex items-center">
@@ -70,7 +70,7 @@
               </span>
               <input
                 type="password"
-                placeholder="Enter your password"
+                placeholder="Entrez votre mot de passe"
                 class="input input-bordered w-full"
                 [(ngModel)]="password"
                 name="password"
@@ -78,11 +78,11 @@
             </div>
           </div>
           <div class="form-control mt-6">
-            <button class="btn btn-primary">Register</button>
+            <button class="btn btn-primary">S'inscrire</button>
           </div>
           <div class="text-center mt-4">
-            <span>Already have an account? </span>
-            <a routerLink="/login" class="link link-primary">Login here</a>
+            <span>Vous avez déjà un compte ? </span>
+            <a routerLink="/login" class="link link-primary">Connectez-vous ici</a>
           </div>
         </form>
       </div>

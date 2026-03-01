@@ -2,7 +2,7 @@
   <div class="max-w-md mx-auto">
     <div class="card bg-base-200 shadow-xl">
       <div class="card-body">
-        <h2 class="card-title text-2xl mb-4">Login</h2>
+        <h2 class="text-2xl font-bold mb-4">Connexion</h2>
         @if (errorMessage) {
         <div class="alert alert-error mb-4">
           <span>{{ errorMessage }}</span>
@@ -28,7 +28,7 @@
           </div>
           <div class="form-control mb-4">
             <label class="label">
-              <span class="label-text">Password</span>
+              <span class="label-text">Mot de passe</span>
             </label>
             <div class="input-group">
               <span class="bg-base-300 px-4 flex items-center">
@@ -36,7 +36,7 @@
               </span>
               <input
                 type="password"
-                placeholder="Enter your password"
+                placeholder="Entrez votre mot de passe"
                 class="input input-bordered w-full"
                 [(ngModel)]="password"
                 name="password"
@@ -44,11 +44,11 @@
             </div>
           </div>
           <div class="form-control mt-6">
-            <button class="btn btn-primary">Login</button>
+            <button class="btn btn-primary">Se connecter</button>
           </div>
           <div class="text-center mt-4">
-            <span>Don't have an account? </span>
-            <a routerLink="/register" class="link link-primary">Register here</a>
+            <span>Vous n'avez pas de compte ? </span>
+            <a routerLink="/register" class="link link-primary">Inscrivez-vous ici</a>
           </div>
         </form>
       </div>

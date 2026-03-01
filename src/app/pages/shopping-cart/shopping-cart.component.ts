@@ -43,13 +43,13 @@ import { UtilisateursService } from '../../services/utilisateurs/utilisateurs';
           <!-- Shipping Address -->
           <fieldset class="mt-4 fieldset px-0 p-4">
             <legend class="fieldset-legend text-lg uppercase">
-              Shipping Address
+              Adresse de livraison
             </legend>
             <textarea
               type="text"
               required
               class="input validator w-full min-h-[80px]"
-              placeholder="your address..."
+              placeholder="Votre adresse..."
               (change)="handleInputChange($event, 'address')"
               >{{ paymentInfoData()?.address || '' }}</textarea
             >
@@ -57,19 +57,19 @@ import { UtilisateursService } from '../../services/utilisateurs/utilisateurs';
           @if(cartItemQuantity() >= 1) {
           <div class="border-t border-t-base-300 pt-4 mt-4 space-y-2">
             <div class="flex items-center justify-between">
-              <span>Total Quantity</span>
+              <span>Quantité totale</span>
               <span class="text-lg font-bold">{{ cartItemQuantity()}}</span>
             </div>
             <div class="flex items-center justify-between">
-              <span>Total Amount</span>
+              <span>Montant total</span>
               <span class="text-lg font-bold">{{ totalPrice() + ' MGA'}}</span>
             </div>
           </div>
           <button class="btn btn-primary w-full mt-2" type="submit">
-            @if (!isLoading() && !isSuccess()) { Pay
+            @if (!isLoading() && !isSuccess()) { Payer
             {{ totalPrice() + ' MGA'}}
-            } @else if (!isLoading() && isSuccess()) { Checkout success } @else
-            { Processing your payment... }
+            } @else if (!isLoading() && isSuccess()) { Paiement réussi } @else
+            { Traitement de votre paiement... }
           </button>
           }
         </form>
@@ -77,10 +77,9 @@ import { UtilisateursService } from '../../services/utilisateurs/utilisateurs';
       <div
         class="w-full pb-14 lg:pb-0 lg:py-0 pt-28 lg:pt-28 px-6 lg:pr-24 lg:pl-8"
       >
-        <h2 class="text-xl font-bold uppercase">Summary Order</h2>
+        <h2 class="text-xl font-bold uppercase">Résumé de la commande</h2>
         <p>
-          Check your item and select your shipping for better experience order
-          item
+          Vérifiez vos articles et sélectionnez votre mode de livraison pour une meilleure expérience
         </p>
         <div>
           @if(cartItemQuantity() >= 1) {
@@ -98,9 +97,9 @@ import { UtilisateursService } from '../../services/utilisateurs/utilisateurs';
           } @else {
           <div class="mt-10 flex items-center justify-center flex-col gap-y-2">
             <p class="text-xl text-center text-gray-400">
-              No item in your shopping cart
+              Aucun article dans votre panier
             </p>
-            <a routerLink="/" class="btn btn-soft">Continue shopping</a>
+            <a routerLink="/" class="btn btn-soft">Continuer vos achats</a>
           </div>
           }
         </div>
@@ -116,11 +115,11 @@ import { UtilisateursService } from '../../services/utilisateurs/utilisateurs';
           ></fa-icon>
         </div>
         <h3 class="text-xl font-bold text-center">
-          Thank you for your purchase
+          Merci pour votre achat
         </h3>
         <div class="modal-action">
           <form method="dialog">
-            <button (click)="closeDialog()" class="btn btn-sm">Close</button>
+            <button (click)="closeDialog()" class="btn btn-sm">Fermer</button>
           </form>
         </div>
       </div>

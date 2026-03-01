@@ -38,14 +38,14 @@ import { ProduitService } from '../../services/produit/produit.service';
           <div class="items-center gap-x-3 hidden lg:flex">
             <div class="dropdown">
               <div tabindex="0" role="button" class="btn btn-primary btn-sm">
-                {{ selectedCategoryId ? getSelectedCategoryName() : 'All Categories' }}
+                {{ selectedCategoryId ? getSelectedCategoryName() : 'Toutes les Catégories' }}
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                 </svg>
               </div>
               <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-56 p-2 shadow-lg border border-base-300 mt-2">
                 <li>
-                  <a (click)="onCategoryClick(null)" [class]="selectedCategoryId === null ? 'bg-primary text-white' : ''">All Categories</a>
+                  <a (click)="onCategoryClick(null)" [class]="selectedCategoryId === null ? 'bg-primary text-white' : ''">Toutes les Catégories</a>
                 </li>
                 <li class="divider"></li>
                 @for (category of categories; track category._id) {
@@ -101,19 +101,19 @@ import { ProduitService } from '../../services/produit/produit.service';
                 <span>{{ userData.nom }}</span>
                 <span class="text-xs">{{ userData.mail }}</span>
               </li>
-              <li><a routerLink="/profile">Profile</a></li>
-              <li><a routerLink="/orders">My Orders</a></li>
-              <li><a (click)="logout()">Logout</a></li>
+              <li><a routerLink="/profile">Profil</a></li>
+              <li><a routerLink="/orders">Mes Commandes</a></li>
+              <li><a (click)="logout()">Déconnexion</a></li>
               } @else {
-              <li><a routerLink="/login">Login</a></li>
-              <li><a routerLink="/register">Register</a></li>
+              <li><a routerLink="/login">Connexion</a></li>
+              <li><a routerLink="/register">Inscription</a></li>
               }
             </ul>
           </div>
           <select data-choose-theme>
-            <option value="dark">Default</option>
-            <option value="dark">Dark</option>
-            <option value="light">Light</option>
+            <option value="dark">Par défaut</option>
+            <option value="dark">Sombre</option>
+            <option value="light">Clair</option>
           </select>
         </div>
         <div class="block lg:hidden dropdown dropdown-end">
@@ -191,7 +191,7 @@ export class HeaderComponent implements OnInit {
 
   getSelectedCategoryName(): string {
     const category = this.categories.find(c => c._id === this.selectedCategoryId);
-    return category ? category.categorie : 'All Categories';
+    return category ? category.categorie : 'Toutes les Catégories';
   }
 
   onSearch(): void {
