@@ -30,7 +30,7 @@ import { CategoryFilterService } from '../../services/category-filter/category-f
               class="group-hover:text-primary"
               [icon]="faShoppingBag"
             ></fa-icon>
-            <span class="hidden lg:block">NG-Commerce</span>
+            <span class="hidden lg:block">Centre Commercial</span>
           </a>
           <div class="items-center gap-x-5 hidden lg:flex">
             <div class="dropdown">

@@ -5,6 +5,7 @@ export interface Product {
   boutique: string;
   nombre: number;
   quantity?: number;
+  image?: string;
   categorie: {
     _id: string;
     categorie: string;
