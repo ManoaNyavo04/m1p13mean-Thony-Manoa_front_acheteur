@@ -1,8 +1,8 @@
-<div class="mt-28 pb-10 px-6 min-h-screen">
+<div class="pb-10 px-6 min-h-screen flex items-center justify-center">
   <div class="max-w-md mx-auto">
     <div class="card bg-base-200 shadow-xl">
       <div class="card-body">
-        <h2 class="card-title text-2xl mb-4">Inscription</h2>
+        <h2 class="text-2xl font-bold mb-4">Inscription</h2>
         @if (errorMessage) {
         <div class="alert alert-error mb-4">
           <span>{{ errorMessage }}</span>
@@ -13,69 +13,68 @@
             <label class="label">
               <span class="label-text">Nom</span>
             </label>
-            <div class="input-group">
-              <span class="bg-base-300 px-4 flex items-center">
-                <fa-icon [icon]="faUser"></fa-icon>
-              </span>
+            <label class="input input-bordered flex items-center gap-2">
+              <fa-icon [icon]="faUser"></fa-icon>
               <input
                 type="text"
                 placeholder="Votre nom"
-                class="input input-bordered w-full"
+                class="grow"
                 [(ngModel)]="nom"
                 name="nom"
+                required
               />
-            </div>
+            </label>
           </div>
           <div class="form-control mb-4">
             <label class="label">
               <span class="label-text">Email</span>
             </label>
-            <div class="input-group">
-              <span class="bg-base-300 px-4 flex items-center">
-                <fa-icon [icon]="faEnvelope"></fa-icon>
-              </span>
+            <label class="input input-bordered flex items-center gap-2">
+              <fa-icon [icon]="faEnvelope"></fa-icon>
               <input
                 type="email"
                 placeholder="email@example.com"
-                class="input input-bordered w-full"
+                class="grow"
                 [(ngModel)]="email"
                 name="email"
+                required
               />
-            </div>
+            </label>
           </div>
           <div class="form-control mb-4">
             <label class="label">
               <span class="label-text">Contact</span>
             </label>
-            <div class="input-group">
-              <span class="bg-base-300 px-4 flex items-center">
-                <fa-icon [icon]="faPhone"></fa-icon>
-              </span>
+            <label class="input input-bordered flex items-center gap-2">
+              <fa-icon [icon]="faPhone"></fa-icon>
               <input
                 type="tel"
                 placeholder="0123456789"
-                class="input input-bordered w-full"
+                class="grow"
                 [(ngModel)]="contact"
                 name="contact"
+                required
               />
-            </div>
+            </label>
           </div>
           <div class="form-control mb-4">
             <label class="label">
               <span class="label-text">Mot de passe</span>
             </label>
-            <div class="input-group">
-              <span class="bg-base-300 px-4 flex items-center">
-                <fa-icon [icon]="faLock"></fa-icon>
-              </span>
+            <label class="input input-bordered flex items-center gap-2">
+              <fa-icon [icon]="faLock"></fa-icon>
               <input
-                type="password"
+                [type]="showPassword ? 'text' : 'password'"
                 placeholder="Entrez votre mot de passe"
-                class="input input-bordered w-full"
+                class="grow"
                 [(ngModel)]="password"
                 name="password"
+                required
               />
-            </div>
+              <button type="button" (click)="showPassword = !showPassword">
+                <fa-icon [icon]="showPassword ? faEyeSlash : faEye"></fa-icon>
+              </button>
+            </label>
           </div>
           <div class="form-control mt-6">
             <button class="btn btn-primary">S'inscrire</button>

@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faUser, faLock } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faLock, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { Meta, Title } from '@angular/platform-browser';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { FormsModule } from '@angular/forms';
@@ -29,10 +29,13 @@ export class LoginComponent {
 
   faUser = faUser;
   faLock = faLock;
+  faEye = faEye;
+  faEyeSlash = faEyeSlash;
 
   email = 'acheteur@gmail.com';
   password = 'acheteur123';
   errorMessage = '';
+  showPassword = false;
 
   onLogin() {
     this.errorMessage = '';
@@ -48,7 +51,7 @@ export class LoginComponent {
           this.categoryFilterService.setUserData(userData);
           this.router.navigate(['']);
         },
-        error: (error) => this.errorMessage = error.error?.message || 'Login failed. Please try again.'
+        error: (error) => this.errorMessage = error.error?.message || 'Échec de la connexion. Veuillez réessayer.'
       });
   }
 }

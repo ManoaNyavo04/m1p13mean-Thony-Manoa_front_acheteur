@@ -1,4 +1,4 @@
-<div class="mt-28 pb-10 px-6 min-h-screen">
+<div class="pb-10 px-6 min-h-screen flex items-center justify-center">
   <div class="max-w-md mx-auto">
     <div class="card bg-base-200 shadow-xl">
       <div class="card-body">
@@ -13,35 +13,34 @@
             <label class="label">
               <span class="label-text">Email</span>
             </label>
-            <div class="input-group">
-              <span class="bg-base-300 px-4 flex items-center">
-                <fa-icon [icon]="faUser"></fa-icon>
-              </span>
+            <label class="input input-bordered flex items-center gap-2">
+              <fa-icon [icon]="faUser"></fa-icon>
               <input
                 type="email"
                 placeholder="email@example.com"
-                class="input input-bordered w-full"
+                class="grow"
                 [(ngModel)]="email"
                 name="email"
               />
-            </div>
+            </label>
           </div>
           <div class="form-control mb-4">
             <label class="label">
               <span class="label-text">Mot de passe</span>
             </label>
-            <div class="input-group">
-              <span class="bg-base-300 px-4 flex items-center">
-                <fa-icon [icon]="faLock"></fa-icon>
-              </span>
+            <label class="input input-bordered flex items-center gap-2">
+              <fa-icon [icon]="faLock"></fa-icon>
               <input
-                type="password"
+                [type]="showPassword ? 'text' : 'password'"
                 placeholder="Entrez votre mot de passe"
-                class="input input-bordered w-full"
+                class="grow"
                 [(ngModel)]="password"
                 name="password"
               />
-            </div>
+              <button type="button" (click)="showPassword = !showPassword">
+                <fa-icon [icon]="showPassword ? faEyeSlash : faEye"></fa-icon>
+              </button>
+            </label>
           </div>
           <div class="form-control mt-6">
             <button class="btn btn-primary">Se connecter</button>

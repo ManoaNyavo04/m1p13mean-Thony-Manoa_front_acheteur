@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faUser, faLock, faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faLock, faEnvelope, faPhone, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { Meta, Title } from '@angular/platform-browser';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { FormsModule } from '@angular/forms';
@@ -29,12 +29,15 @@ export class RegisterComponent {
   faLock = faLock;
   faEnvelope = faEnvelope;
   faPhone = faPhone;
+  faEye = faEye;
+  faEyeSlash = faEyeSlash;
 
   nom = '';
   email = '';
   contact = '';
   password = '';
   errorMessage = '';
+  showPassword = false;
 
   onRegister() {
     this.errorMessage = '';
@@ -44,7 +47,10 @@ export class RegisterComponent {
           console.log('Registration successful', response);
           this.router.navigate(['/login']);
         },
-        error: (error) => this.errorMessage = error.error?.message || 'Registration failed. Please try again.'
+        error: (error) => {
+          console.log('Registration error:', error);
+          this.errorMessage = error.error.error || 'Échec de l\'inscription. Veuillez réessayer.';
+        }
       });
   }
 }
