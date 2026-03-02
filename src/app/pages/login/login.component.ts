@@ -30,8 +30,8 @@ export class LoginComponent {
   faUser = faUser;
   faLock = faLock;
 
-  email = '';
-  password = '';
+  email = 'acheteur@gmail.com';
+  password = 'acheteur123';
   errorMessage = '';
 
   onLogin() {

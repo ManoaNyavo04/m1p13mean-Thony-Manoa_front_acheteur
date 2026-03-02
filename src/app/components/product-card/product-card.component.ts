@@ -56,7 +56,7 @@ import { environment } from '../../../environments/environment';
               </div>
             </div>
             <div>
-              <div class="badge badge-outline capitalize">
+              <div class="badge badge-outline capitalize truncate max-w-[150px]" [title]="product()?.categorie?.categorie">
                 {{ product()?.categorie?.categorie }}
               </div>
             </div>
