@@ -11,7 +11,7 @@ export class ProduitService {
   private readonly apiUrl = `${environment.apiUrl}/produit`;
 
   getAllProducts(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/`);
+    return this.http.get(`${this.apiUrl}/available`);
   }
 
   getProductsByCategory(categorieId: string): Observable<any> {
